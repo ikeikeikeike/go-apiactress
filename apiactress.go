@@ -53,8 +53,8 @@ type Actress struct {
 }
 
 type ApiActress struct {
-	Count     int       `json:"count"`
-	Actresses []Actress `json:"Actresses"`
+	Count     int        `json:"count"`
+	Actresses []*Actress `json:"Actresses"`
 }
 
 func (c *Client) Fetch(prefix string) (*ApiActress, error) {
@@ -77,15 +77,15 @@ func (c *Client) Fetch(prefix string) (*ApiActress, error) {
 /*
 	[Deplicated] Server is poverty.
 */
-func (c *Client) FetchAll() []*ApiActress {
-	var all []*ApiActress
+func (c *Client) FetchAll() (all []*ApiActress, errs []error) {
 	for _, g := range Kunrei {
-		if r, err := c.Fetch(g); err == nil {
+		if r, err := c.Fetch(g); err != nil {
+			errs = append(errs, err)
+		} else {
 			all = append(all, r)
 		}
 	}
-
-	return all
+	return
 }
 
 /*
