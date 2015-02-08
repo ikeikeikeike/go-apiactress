@@ -80,9 +80,7 @@ func (c *Client) Fetch(prefix string) (*ApiActress, error) {
 func (c *Client) FetchAll() []*ApiActress {
 	var all []*ApiActress
 	for _, g := range Kunrei {
-		if r, err := c.Fetch(g); err != nil {
-			continue
-		} else {
+		if r, err := c.Fetch(g); err == nil {
 			all = append(all, r)
 		}
 	}
